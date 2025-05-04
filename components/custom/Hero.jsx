@@ -22,6 +22,10 @@ const Hero = () => {
             setOpenDialog(true);
             return;
         }
+        if (!userDetail || !userDetail._id) {
+            console.error('Invalid user details. Cannot create workspace.');
+            return;
+        }
         if(userDetail?.token < 10){
             toast('You dont have enough tokens to generate!')
             return ;

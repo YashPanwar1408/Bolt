@@ -12,7 +12,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { countToken } from './ChatView';
 import { UserDetailContext } from '@/context/UserDetailContext';
 import SandpackPreviewClient from './SandpackPreviewClient';
-import { ActionContext } from '@/context/ActionContext';
 
 function CodeView() {
   const { id } = useParams();
@@ -24,16 +23,11 @@ function CodeView() {
   const convex = useConvex();
   const [loading, setLoading] = useState(false)
   const UpdateToken = useMutation(api.workspace.UpdateToken);
-  const {action,setAction}=useContext(ActionContext)
 
 
   useEffect(() => {
     id && GetFiles();
   }, [id])
-
-  useEffect(()=>{
-    setActiveTab('preview');
-  },[action])
 
   const GetFiles = async () => {
     setLoading(true);
