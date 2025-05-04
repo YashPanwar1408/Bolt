@@ -13,6 +13,7 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
 import { useSidebar } from '../ui/sidebar';
+import { toast } from 'sonner';
 // import ReactMarkdown from 'react-markdown';
 
 export const countToken=(inputText)=>{
@@ -64,6 +65,10 @@ function ChatView() {
             });
 
             const token=Number(userDetail?.token)-Number(countToken(JSON.stringify(aiResp)));
+            setUserDetail(prev => ({
+                ...prev,
+                token: token,
+            }));
             //update token to database
             await UpdateTokens({
                 userId: userDetail?._id,
@@ -85,6 +90,10 @@ function ChatView() {
     }, [messages]);
 
     const onGenerate = (input) => {
+        if(userDetail?.token < 10){
+            toast('You dont have enough tokens to generate!')
+            return ;
+        }
         setMessages((prev) => [
             ...prev,
             {

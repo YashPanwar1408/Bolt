@@ -2,7 +2,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva } from "class-variance-authority";
-import { PanelLeftIcon } from "lucide-react"
+import { PanelLeftIcon, XIcon } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -137,7 +137,7 @@ function Sidebar({
   children,
   ...props
 }) {
-  const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+  const { isMobile, state, openMobile, setOpenMobile, toggleSidebar } = useSidebar()
 
   if (collapsible === "none") {
     return (
@@ -148,6 +148,13 @@ function Sidebar({
           className
         )}
         {...props}>
+        <button
+          onClick={toggleSidebar}
+          className="absolute top-2 right-2 p-2 rounded-md hover:bg-gray-200"
+          aria-label="Close Sidebar"
+        >
+          <XIcon className="w-5 h-5" />
+        </button>
         {children}
       </div>
     );
@@ -214,6 +221,13 @@ function Sidebar({
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
           className="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm">
+          <button
+            onClick={toggleSidebar}
+            className="absolute top-2 right-2 p-2 rounded-md hover:bg-gray-200"
+            aria-label="Close Sidebar"
+          >
+            <XIcon className="w-5 h-5" />
+          </button>
           {children}
         </div>
       </div>

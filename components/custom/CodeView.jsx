@@ -11,6 +11,8 @@ import { useParams } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react'
 import { countToken } from './ChatView';
 import { UserDetailContext } from '@/context/UserDetailContext';
+import SandpackPreviewClient from './SandpackPreviewClient';
+import { ActionContext } from '@/context/ActionContext';
 
 function CodeView() {
   const { id } = useParams();
@@ -22,11 +24,16 @@ function CodeView() {
   const convex = useConvex();
   const [loading, setLoading] = useState(false)
   const UpdateToken = useMutation(api.workspace.UpdateToken);
+  const {action,setAction}=useContext(ActionContext)
 
 
   useEffect(() => {
     id && GetFiles();
   }, [id])
+
+  useEffect(()=>{
+    setActiveTab('preview');
+  },[action])
 
   const GetFiles = async () => {
     setLoading(true);
@@ -82,6 +89,10 @@ function CodeView() {
         userId: userDetail?._id,
         token: token,
       });
+      setUserDetail(prev => ({
+        ...prev,
+        token: token,
+      }));
     } catch (error) {
       console.error('Error in GenerateAiCode:', error);
     } finally {
@@ -117,8 +128,9 @@ function CodeView() {
             <SandpackCodeEditor style={{ height: '80vh' }} />
           </> :
             <>
-              <SandpackPreview style={{ height: '80vh' }} showNavigator={true} />
-            </>}
+              <SandpackPreviewClient />
+            </>
+          }
         </SandpackLayout>
       </SandpackProvider>
       {loading && <div className='p-10 bg-gray-900 opacity-80 absolute top-0 rounded-lg w-full h-full flex items-center justify-center'>

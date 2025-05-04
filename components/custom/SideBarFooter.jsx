@@ -17,7 +17,7 @@ function SideBarFooter() {
     {
       name:'My Subscriptions',
       icon:Wallet,
-      Path:'/pricing'
+      path:'/pricing'
     },
     {
       name:'Sign Out',
@@ -26,7 +26,7 @@ function SideBarFooter() {
   ]
 
   const onOptionClick=(option)=>{
-    router.push(option.Path);
+    router.push(option.path);
   }
   return (
     <div className='p-2 mb-5'>
