@@ -69,3 +69,11 @@ export const GetAllWorkspaces=query({
         return result;
     }
 })
+
+export const UpdateToken = mutation(async ({ db }, { userId, token }) => {
+  if (!userId) {
+    throw new Error('User ID is required');
+  }
+
+  await db.patch(userId, { token });
+});
